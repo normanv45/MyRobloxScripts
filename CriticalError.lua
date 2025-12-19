@@ -1,149 +1,138 @@
--- [[ APEX NEBULA V8: THE OMNI-SCRIPT ]]
+-- [[ CRITICAL ERROR: V10 OMNIPOTENCE ]]
+-- [[ THE ULTIMATE SERVER DESTROYER ]]
+
 local LPlayer = game.Players.LocalPlayer
-local UIS = game:GetService("UserInputService")
+local Char = LPlayer.Character or LPlayer.CharacterAdded:Wait()
+local Root = Char:WaitForChild("HumanoidRootPart")
+local Hum = Char:WaitForChild("Humanoid")
+local Mouse = LPlayer:GetMouse()
 local TS = game:GetService("TweenService")
+local UIS = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
 
--- [ 1. INITIALIZE & CLEANUP ]
-if CoreGui:FindFirstChild("ApexNebula") then CoreGui.ApexNebula:Destroy() end
+-- [ 1. UI ENGINE: ELITE OBSIDIAN ]
+if CoreGui:FindFirstChild("Omnipotence") then CoreGui.Omnipotence:Destroy() end
 local ScreenGui = Instance.new("ScreenGui", CoreGui)
-ScreenGui.Name = "ApexNebula"
+ScreenGui.Name = "Omnipotence"
 
--- [ 2. ELITE GLASS MAIN FRAME ]
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 720, 0, 460)
-Main.Position = UDim2.new(0.5, -360, 0.5, -230)
-Main.BackgroundColor3 = Color3.fromRGB(10, 10, 15)
-Main.BackgroundTransparency = 0.15 -- Glass effect
-Main.BorderSizePixel = 0
+Main.Size = UDim2.new(0, 800, 0, 500)
+Main.Position = UDim2.new(0.5, -400, 0.5, -250)
+Main.BackgroundColor3 = Color3.fromRGB(5, 5, 7)
+Main.BackgroundTransparency = 0.1
+Main.Draggable = true
 Main.Active = true
-Main.Draggable = true -- Allows moving the menu
-local Corner = Instance.new("UICorner", Main)
-Corner.CornerRadius = UDim.new(0, 15)
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 15)
+local Glow = Instance.new("UIStroke", Main)
+Glow.Color = Color3.fromRGB(255, 0, 0); Glow.Thickness = 2.5; Glow.Transparency = 0.4
 
--- [ 3. TOP BAR CONTROL STRIP ]
+-- [ 2. TOP BAR CONTROLS ]
 local TopBar = Instance.new("Frame", Main)
-TopBar.Size = UDim2.new(1, 0, 0, 45)
-TopBar.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
-TopBar.BorderSizePixel = 0
-Instance.new("UICorner", TopBar).CornerRadius = UDim.new(0, 15)
+TopBar.Size = UDim2.new(1, 0, 0, 50); TopBar.BackgroundColor3 = Color3.fromRGB(10, 10, 15); Instance.new("UICorner", TopBar)
 
 local Title = Instance.new("TextLabel", TopBar)
-Title.Text = "  APEX NEBULA // ELITE OMNI-HUB"
-Title.Size = UDim2.new(0.5, 0, 1, 0)
-Title.TextColor3 = Color3.fromRGB(255, 0, 60)
-Title.Font = Enum.Font.GothamBold
-Title.BackgroundTransparency = 1
-Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Text = "  OMNIPOTENCE V10 // CRITICAL ERROR"; Title.Size = UDim2.new(0.5, 0, 1, 0); Title.TextColor3 = Color3.fromRGB(255, 0, 0); Title.Font = Enum.Font.GothamBold; Title.TextSize = 20; Title.BackgroundTransparency = 1; Title.TextXAlignment = Enum.TextXAlignment.Left
 
--- [ 4. SEARCH & CONTROL BUTTONS ]
-local Search = Instance.new("TextBox", TopBar)
-Search.Size = UDim2.new(0, 160, 0, 25)
-Search.Position = UDim2.new(0.55, 0, 0.5, -12)
-Search.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
-Search.PlaceholderText = "Search..."
-Search.TextColor3 = Color3.fromRGB(255, 255, 255)
-Instance.new("UICorner", Search)
-
--- X (CLOSE)
-local Close = Instance.new("TextButton", TopBar)
-Close.Size = UDim2.new(0, 30, 0, 30)
-Close.Position = UDim2.new(1, -40, 0.5, -15)
-Close.Text = "X"
-Close.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
-Close.TextColor3 = Color3.fromRGB(255, 255, 255)
-Instance.new("UICorner", Close).CornerRadius = UDim.new(1, 0)
-Close.MouseButton1Click:Connect(function() ScreenGui:Destroy() end)
-
--- - (MINIMIZE)
-local Min = Instance.new("TextButton", TopBar)
-Min.Size = UDim2.new(0, 30, 0, 30)
-Min.Position = UDim2.new(1, -75, 0.5, -15)
-Min.Text = "-"
-Min.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-Min.TextColor3 = Color3.fromRGB(255, 255, 255)
-Instance.new("UICorner", Min).CornerRadius = UDim.new(1, 0)
-
-local Minimized = false
-Min.MouseButton1Click:Connect(function()
-    Minimized = not Minimized
-    TS:Create(Main, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Size = Minimized and UDim2.new(0, 720, 0, 45) or UDim2.new(0, 720, 0, 460)}):Play()
+-- CLOSE / MINIMIZE
+local function Control(txt, pos, cb)
+    local B = Instance.new("TextButton", TopBar)
+    B.Size = UDim2.new(0, 30, 0, 30); B.Position = pos; B.Text = txt; B.BackgroundColor3 = Color3.fromRGB(30,30,35); B.TextColor3 = Color3.fromRGB(255,255,255); Instance.new("UICorner", B).CornerRadius = UDim.new(1,0)
+    B.MouseButton1Click:Connect(cb)
+end
+Control("X", UDim2.new(1, -40, 0.5, -15), function() ScreenGui:Destroy() end)
+Control("-", UDim2.new(1, -80, 0.5, -15), function() 
+    Main.ClipsDescendants = true
+    local Target = (Main.Size.Y.Offset > 60) and 50 or 500
+    TS:Create(Main, TweenInfo.new(0.4), {Size = UDim2.new(0, 800, 0, Target)}):Play()
 end)
 
--- [ 5. CONTENT SCROLL ENGINE ]
-local Scroll = Instance.new("ScrollingFrame", Main)
-Scroll.Size = UDim2.new(1, -20, 1, -65)
-Scroll.Position = UDim2.new(0, 10, 0, 55)
-Scroll.BackgroundTransparency = 1
-Scroll.ScrollBarThickness = 3
-Scroll.ScrollBarImageColor3 = Color3.fromRGB(255, 0, 60)
-Instance.new("UIListLayout", Scroll).Padding = UDim.new(0, 10)
+-- [ 3. TAB SYSTEM ]
+local Sidebar = Instance.new("Frame", Main)
+Sidebar.Size = UDim2.new(0, 180, 1, -60); Sidebar.Position = UDim2.new(0, 10, 0, 60); Sidebar.BackgroundTransparency = 1
+local TabList = Instance.new("UIListLayout", Sidebar); TabList.Padding = UDim.new(0, 5)
 
--- [ 6. THE SCRIPT ENGINE ]
-local function AddScript(name, desc, code)
-    local F = Instance.new("Frame", Scroll)
-    F.Size = UDim2.new(1, -10, 0, 75)
-    F.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
-    Instance.new("UICorner", F).CornerRadius = UDim.new(0, 10)
+local Container = Instance.new("ScrollingFrame", Main)
+Container.Size = UDim2.new(1, -210, 1, -70); Container.Position = UDim2.new(0, 200, 0, 60); Container.BackgroundTransparency = 1; Container.ScrollBarThickness = 2
+Instance.new("UIListLayout", Container).Padding = UDim.new(0, 10)
 
-    local T = Instance.new("TextLabel", F)
-    T.Text = " " .. name; T.Size = UDim2.new(0.8, 0, 0.5, 0); T.TextColor3 = Color3.fromRGB(255, 255, 255); T.Font = Enum.Font.GothamBold; T.BackgroundTransparency = 1; T.TextXAlignment = Enum.TextXAlignment.Left
-    
-    local D = Instance.new("TextLabel", F)
-    D.Text = " " .. desc; D.Size = UDim2.new(0.8, 0, 0.4, 0); D.Position = UDim2.new(0, 0, 0.5, 0); D.TextColor3 = Color3.fromRGB(150, 150, 150); D.TextSize = 12; D.Font = Enum.Font.Gotham; D.BackgroundTransparency = 1; D.TextXAlignment = Enum.TextXAlignment.Left
-
-    local Switch = Instance.new("TextButton", F)
-    Switch.Size = UDim2.new(0, 60, 0, 30); Switch.Position = UDim2.new(1, -70, 0.5, -15); Switch.BackgroundColor3 = Color3.fromRGB(40, 40, 50); Switch.Text = ""; Instance.new("UICorner", Switch).CornerRadius = UDim.new(1, 0)
-    
-    local Active = false
-    Switch.MouseButton1Click:Connect(function()
-        Active = not Active
-        TS:Create(Switch, TweenInfo.new(0.3), {BackgroundColor3 = Active and Color3.fromRGB(255, 0, 60) or Color3.fromRGB(40, 40, 50)}):Play()
-        task.spawn(function() code(Active) end)
+local function AddToggle(name, desc, code)
+    local F = Instance.new("Frame", Container); F.Size = UDim2.new(1, -10, 0, 70); F.BackgroundColor3 = Color3.fromRGB(15, 15, 20); Instance.new("UICorner", F)
+    local T = Instance.new("TextLabel", F); T.Text = " " .. name; T.Size = UDim2.new(0.7, 0, 0.5, 0); T.TextColor3 = Color3.fromRGB(255, 255, 255); T.Font = Enum.Font.GothamBold; T.BackgroundTransparency = 1; T.TextXAlignment = Enum.TextXAlignment.Left
+    local D = Instance.new("TextLabel", F); D.Text = " " .. desc; D.Size = UDim2.new(0.7, 0, 0.4, 0); D.Position = UDim2.new(0, 0, 0.5, 0); D.TextColor3 = Color3.fromRGB(150, 150, 150); D.TextSize = 11; D.Font = Enum.Font.Gotham; D.BackgroundTransparency = 1; D.TextXAlignment = Enum.TextXAlignment.Left
+    local S = Instance.new("TextButton", F); S.Size = UDim2.new(0, 50, 0, 25); S.Position = UDim2.new(1, -60, 0.5, -12); S.BackgroundColor3 = Color3.fromRGB(40, 40, 45); S.Text = ""; Instance.new("UICorner", S).CornerRadius = UDim.new(1, 0)
+    local active = false
+    S.MouseButton1Click:Connect(function()
+        active = not active
+        TS:Create(S, TweenInfo.new(0.3), {BackgroundColor3 = active and Color3.fromRGB(255, 0, 0) or Color3.fromRGB(40, 40, 45)}):Play()
+        task.spawn(function() code(active) end)
     end)
 end
 
--- [ 7. THE WORKING FEATURES ]
+-- [ 4. THE GOD-TIER SCRIPTS ]
 
--- FLY
-AddScript("ZENITH FLY", "Glide through walls (E to Toggle)", function(state)
-    _G.Fly = state
-    local char = LPlayer.Character or LPlayer.CharacterAdded:Wait()
-    local hrp = char:WaitForChild("HumanoidRootPart")
-    if _G.Fly then
-        local bv = Instance.new("BodyVelocity", hrp)
-        bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-        while _G.Fly do
-            bv.Velocity = workspace.CurrentCamera.CFrame.LookVector * 100
-            task.wait()
-        end
-        bv:Destroy()
-    end
-end)
-
--- SILENT AIM (RAYCAST)
-AddScript("PRECISION AIM", "Locks to nearest hitbox via raycasting", function(state)
-    _G.Silent = state
-    while _G.Silent do
-        -- Logic to find nearest target and redirect mouse hit
-        task.wait(0.1)
-    end
-end)
-
--- OPUS ITEM VACUUM
-AddScript("ITEM VACUUM", "Sucks all items/scrap to your feet", function(state)
-    while state do
-        for _, v in pairs(workspace:GetDescendants()) do
-            if v:IsA("TouchTransmitter") then
-                LPlayer.Character.HumanoidRootPart.CFrame = v.Parent.CFrame
+-- COMBAT: RAYCAST AIMBOT
+AddToggle("OMNI-AIM", "Extreme Raycast Tracking & Silent Aim", function(v)
+    _G.Aimbot = v
+    while _G.Aimbot do
+        local target = nil; local dist = math.huge
+        for _, p in pairs(game.Players:GetPlayers()) do
+            if p ~= LPlayer and p.Character and p.Character:FindFirstChild("Head") then
+                local mag = (p.Character.Head.Position - Root.Position).Magnitude
+                if mag < dist then dist = mag; target = p end
             end
         end
-        task.wait(1)
+        if target then workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, target.Character.Head.Position) end
+        task.wait()
     end
 end)
 
--- FULL BRIGHT
-AddScript("FULL BRIGHT", "Removes darkness (Essential for Horror)", function(state)
-    game:GetService("Lighting").Brightness = state and 2 or 1
-    game:GetService("Lighting").ClockTime = state and 14 or 12
+-- MOVEMENT: APEX FLIGHT
+AddToggle("ZENITH FLY", "Universal Noclip Flight (E to Toggle)", function(v)
+    _G.Flying = v
+    local bv = Instance.new("BodyVelocity", Root)
+    bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+    while _G.Flying do
+        bv.Velocity = workspace.CurrentCamera.CFrame.LookVector * 150
+        task.wait()
+    end
+    bv:Destroy()
+end)
+
+-- MOVEMENT: GOD SPEED
+AddToggle("SONIC VELOCITY", "Max Speed Bypass (300+)", function(v)
+    game:GetService("RunService").Stepped:Connect(function()
+        if v then Root.CFrame = Root.CFrame + Hum.MoveDirection * 2 end
+    end)
+end)
+
+-- TROLLING: CHAT SPAMMER
+AddToggle("SALT GENERATOR", "Spams chat with 'Critical Error' roasts", function(v)
+    while v do
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Critical Error has detected a skill issue in this server.", "All")
+        task.wait(3)
+    end
+end)
+
+-- VISUALS: OMNI-ESP
+AddToggle("X-RAY VISION", "Highlights every player & item", function(v)
+    for _, p in pairs(game.Players:GetPlayers()) do
+        if p ~= LPlayer and p.Character then
+            if v then
+                local h = Instance.new("Highlight", p.Character)
+                h.FillColor = Color3.fromRGB(255, 0, 0); h.Name = "OmniESP"
+            elseif p.Character:FindFirstChild("OmniESP") then
+                p.Character.OmniESP:Destroy()
+            end
+        end
+    end
+end)
+
+-- TROLLING: FLING ALL
+AddToggle("SERVER FLING", "Spin like a tornado and fling everyone", function(v)
+    _G.Fling = v
+    while _G.Fling do
+        Root.RotVelocity = Vector3.new(0, 10000, 0)
+        Root.Velocity = Vector3.new(0, 50, 0)
+        task.wait()
+    end
 end)
