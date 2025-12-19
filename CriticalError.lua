@@ -1,5 +1,5 @@
--- [[ CRITICAL ERROR: APEX PREDATOR V6 ]]
--- [[ THE FINAL EVOLUTION - UNIVERSAL + SPECIFIC ]]
+-- [[ CRITICAL ERROR: V7 OBSIDIAN SHADOW ]]
+-- [[ THE FINAL ASCENSION - ELITE UI CORE ]]
 
 local LPlayer = game.Players.LocalPlayer
 local UIS = game:GetService("UserInputService")
@@ -7,138 +7,144 @@ local TS = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
 
 -- [ CLEANUP ]
-if CoreGui:FindFirstChild("Apex_Hub") then CoreGui.Apex_Hub:Destroy() end
+if CoreGui:FindFirstChild("Obsidian") then CoreGui.Obsidian:Destroy() end
 
 local ScreenGui = Instance.new("ScreenGui", CoreGui)
-ScreenGui.Name = "Apex_Hub"
+ScreenGui.Name = "Obsidian"
 
--- [ THE ENGINE ]
+-- [ THE GLASS MAIN FRAME ]
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 800, 0, 500)
-Main.Position = UDim2.new(0.5, -400, 0.5, -250)
-Main.BackgroundColor3 = Color3.fromRGB(8, 8, 8)
+Main.Size = UDim2.new(0, 680, 0, 430)
+Main.Position = UDim2.new(0.5, -340, 0.5, -215)
+Main.BackgroundColor3 = Color3.fromRGB(10, 10, 12)
+Main.BackgroundTransparency = 0.1 -- Glass effect
 Main.BorderSizePixel = 0
-Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 15)
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 20)
 
--- [ NEON UNDERGLOW ]
-local Glow = Instance.new("ImageLabel", Main)
-Glow.Name = "Glow"
-Glow.BackgroundTransparency = 1
-Glow.Position = UDim2.new(0, -15, 0, -15)
-Glow.Size = UDim2.new(1, 30, 1, 30)
-Glow.Image = "rbxassetid://6015667123" -- Shadow Map Glow
-Glow.ImageColor3 = Color3.fromRGB(255, 0, 50)
+-- [ THE INNER GLOW BORDER ]
+local Stroke = Instance.new("UIStroke", Main)
+Stroke.Color = Color3.fromRGB(255, 0, 60)
+Stroke.Thickness = 2.5
+Stroke.Transparency = 0.4
 
--- [ SIDEBAR WITH ANIMATED ICONS ]
+-- [ SIDEBAR DESIGN ]
 local Sidebar = Instance.new("Frame", Main)
-Sidebar.Size = UDim2.new(0, 200, 1, 0)
-Sidebar.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
+Sidebar.Size = UDim2.new(0, 180, 1, 0)
+Sidebar.BackgroundColor3 = Color3.fromRGB(15, 15, 18)
 Sidebar.BorderSizePixel = 0
-Instance.new("UICorner", Sidebar).CornerRadius = UDim.new(0, 15)
+Instance.new("UICorner", Sidebar).CornerRadius = UDim.new(0, 20)
 
 local Logo = Instance.new("TextLabel", Sidebar)
-Logo.Size = UDim2.new(1, 0, 0, 80)
-Logo.Text = "APEX // ERROR"
-Logo.TextColor3 = Color3.fromRGB(255, 0, 50)
+Logo.Size = UDim2.new(1, 0, 0, 90)
+Logo.Text = "OBSIDIAN"
+Logo.TextColor3 = Color3.fromRGB(255, 0, 60)
 Logo.Font = Enum.Font.GothamBold
-Logo.TextSize = 24
+Logo.TextSize = 26
 Logo.BackgroundTransparency = 1
 
-local TabHolder = Instance.new("ScrollingFrame", Sidebar)
-TabHolder.Size = UDim2.new(1, 0, 1, -100)
-TabHolder.Position = UDim2.new(0, 0, 0, 90)
-TabHolder.BackgroundTransparency = 1
-TabHolder.ScrollBarThickness = 0
-Instance.new("UIListLayout", TabHolder).Padding = UDim.new(0, 10)
+local TabContainer = Instance.new("ScrollingFrame", Sidebar)
+TabContainer.Size = UDim2.new(1, 0, 1, -110)
+TabContainer.Position = UDim2.new(0, 0, 0, 100)
+TabContainer.BackgroundTransparency = 1
+TabContainer.ScrollBarThickness = 0
+local TabList = Instance.new("UIListLayout", TabContainer)
+TabList.Padding = UDim.new(0, 12)
+TabList.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
--- [ DYNAMIC CONTENT LOADER ]
+-- [ CONTENT PAGE LOADER ]
 local Container = Instance.new("Frame", Main)
-Container.Size = UDim2.new(1, -220, 1, -20)
-Container.Position = UDim2.new(0, 210, 0, 10)
+Container.Size = UDim2.new(1, -210, 1, -20)
+Container.Position = UDim2.new(0, 200, 0, 15)
 Container.BackgroundTransparency = 1
 
-local function CreateTab(name, desc)
+local function CreateTab(name)
     local Page = Instance.new("ScrollingFrame", Container)
     Page.Size = UDim2.new(1, 0, 1, 0)
     Page.Visible = false
     Page.BackgroundTransparency = 1
     Page.CanvasSize = UDim2.new(0, 0, 0, 0)
     Page.AutomaticCanvasSize = Enum.AutomaticSize.Y
-    Page.ScrollBarThickness = 2
-    Instance.new("UIListLayout", Page).Padding = UDim.new(0, 12)
+    Page.ScrollBarThickness = 0
+    Instance.new("UIListLayout", Page).Padding = UDim.new(0, 15)
 
-    local TabBtn = Instance.new("TextButton", TabHolder)
-    TabBtn.Size = UDim2.new(0.9, 0, 0, 50)
-    TabBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-    TabBtn.Text = "  " .. name
-    TabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    local TabBtn = Instance.new("TextButton", TabContainer)
+    TabBtn.Size = UDim2.new(0.85, 0, 0, 45)
+    TabBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+    TabBtn.Text = name
+    TabBtn.TextColor3 = Color3.fromRGB(180, 180, 180)
     TabBtn.Font = Enum.Font.GothamSemibold
-    TabBtn.TextXAlignment = Enum.TextXAlignment.Left
-    Instance.new("UICorner", TabBtn)
+    Instance.new("UICorner", TabBtn).CornerRadius = UDim.new(0, 8)
     
     TabBtn.MouseButton1Click:Connect(function()
-        for _, p in pairs(Container:GetChildren()) do p.Visible = false end
+        for _, p in pairs(Container:GetChildren()) do 
+            if p:IsA("ScrollingFrame") then p.Visible = false end
+        end
         Page.Visible = true
+        TS:Create(TabBtn, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(255, 0, 60), TextColor3 = Color3.fromRGB(255,255,255)}):Play()
+        task.wait(0.3)
+        TS:Create(TabBtn, TweenInfo.new(0.5), {BackgroundColor3 = Color3.fromRGB(25, 25, 30), TextColor3 = Color3.fromRGB(180,180,180)}):Play()
     end)
     return Page
 end
 
--- [ THE GAME DETECTION LOGIC ]
-local function GetGame()
-    local id = game.PlaceId
-    if id == 15335299833 then return "LETHAL COMPANY"
-    elseif id == 2753915549 then return "BLOX FRUITS"
-    elseif id == 6872265039 then return "BEDWARS"
-    else return "UNIVERSAL" end
-end
-
--- [ TABS SETUP ]
-local MainTab = CreateTab("GLOBAL", "Universal Hacks")
-local GameTab = CreateTab(GetGame(), "Game-Specific Exploits")
-local Visuals = CreateTab("SENSORY", "Visual & ESP")
-local Admin = CreateTab("ENGINE", "Internal Scripts")
-
--- [ GOD-TIER BUTTON CREATOR ]
+-- [ TILED BUTTON CREATOR ]
 local function AddFeature(page, name, desc, callback)
-    local F = Instance.new("Frame", page)
-    F.Size = UDim2.new(1, -10, 0, 75)
-    F.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
-    Instance.new("UICorner", F)
-    Instance.new("UIStroke", F).Color = Color3.fromRGB(30, 30, 30)
+    local Tile = Instance.new("Frame", page)
+    Tile.Size = UDim2.new(1, -10, 0, 70)
+    Tile.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+    Instance.new("UICorner", Tile).CornerRadius = UDim.new(0, 12)
+    Instance.new("UIStroke", Tile).Color = Color3.fromRGB(40, 40, 45)
 
-    local T = Instance.new("TextLabel", F)
-    T.Text = " " .. name; T.Size = UDim2.new(0.7, 0, 0.5, 0); T.TextColor3 = Color3.fromRGB(255, 255, 255); T.Font = Enum.Font.GothamBold; T.BackgroundTransparency = 1; T.TextXAlignment = Enum.TextXAlignment.Left
-    
-    local D = Instance.new("TextLabel", F)
-    D.Text = " " .. desc; D.Size = UDim2.new(0.7, 0, 0.4, 0); D.Position = UDim2.new(0, 0, 0.5, 0); D.TextColor3 = Color3.fromRGB(120, 120, 120); D.Font = Enum.Font.Gotham; D.BackgroundTransparency = 1; D.TextXAlignment = Enum.TextXAlignment.Left; D.TextSize = 12
+    local Title = Instance.new("TextLabel", Tile)
+    Title.Text = name
+    Title.Size = UDim2.new(0.7, 0, 0.5, 0)
+    Title.Position = UDim2.new(0, 15, 0.1, 0)
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.Font = Enum.Font.GothamBold
+    Title.TextXAlignment = Enum.TextXAlignment.Left
+    Title.BackgroundTransparency = 1
 
-    local Toggle = Instance.new("TextButton", F)
-    Toggle.Size = UDim2.new(0, 60, 0, 30); Toggle.Position = UDim2.new(1, -70, 0.5, -15); Toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30); Toggle.Text = ""; Instance.new("UICorner", Toggle).CornerRadius = UDim.new(1, 0)
+    local Desc = Instance.new("TextLabel", Tile)
+    Desc.Text = desc
+    Desc.Size = UDim2.new(0.7, 0, 0.4, 0)
+    Desc.Position = UDim2.new(0, 15, 0.5, 0)
+    Desc.TextColor3 = Color3.fromRGB(130, 130, 140)
+    Desc.Font = Enum.Font.Gotham
+    Desc.TextSize = 11
+    Desc.TextXAlignment = Enum.TextXAlignment.Left
+    Desc.BackgroundTransparency = 1
+
+    local Switch = Instance.new("TextButton", Tile)
+    Switch.Size = UDim2.new(0, 50, 0, 26)
+    Switch.Position = UDim2.new(1, -65, 0.5, -13)
+    Switch.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    Switch.Text = ""
+    Instance.new("UICorner", Switch).CornerRadius = UDim.new(1, 0)
     
-    local state = false
-    Toggle.MouseButton1Click:Connect(function()
-        state = not state
-        TS:Create(Toggle, TweenInfo.new(0.3), {BackgroundColor3 = state and Color3.fromRGB(255, 0, 50) or Color3.fromRGB(30, 30, 30)}):Play()
-        callback(state)
+    local Dot = Instance.new("Frame", Switch)
+    Dot.Size = UDim2.new(0, 18, 0, 18)
+    Dot.Position = UDim2.new(0, 4, 0.5, -9)
+    Dot.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Instance.new("UICorner", Dot).CornerRadius = UDim.new(1, 0)
+
+    local active = false
+    Switch.MouseButton1Click:Connect(function()
+        active = not active
+        TS:Create(Switch, TweenInfo.new(0.3), {BackgroundColor3 = active and Color3.fromRGB(255, 0, 60) or Color3.fromRGB(40, 40, 50)}):Play()
+        TS:Create(Dot, TweenInfo.new(0.3), {Position = active and UDim2.new(1, -22, 0.5, -9) or UDim2.new(0, 4, 0.5, -9)}):Play()
+        callback(active)
     end)
 end
 
--- [[ LOADOUT: GLOBAL ]]
-AddFeature(MainTab, "Speed Glitch (300)", "Bypass walking speed caps", function(v) LPlayer.Character.Humanoid.WalkSpeed = v and 300 or 16 end)
-AddFeature(MainTab, "God Flight", "Fly through walls and maps (Key: E)", function(v) end)
-AddFeature(MainTab, "Noclip Engine", "Disable all collisions (Key: V)", function(v) end)
+-- [ TABS SETUP ]
+local Combat = CreateTab("COMBAT")
+local Visuals = CreateTab("SENSORY")
+local Opus = CreateTab("OPUS WORLD")
 
--- [[ LOADOUT: GAME SPECIFIC ]]
-if GetGame() == "LETHAL COMPANY" then
-    AddFeature(GameTab, "Scrap Magnet", "Teleport all items to your feet", function(v) end)
-    AddFeature(GameTab, "Monster ESP", "Highlight monsters through facility walls", function(v) end)
-elseif GetGame() == "BEDWARS" then
-    AddFeature(GameTab, "Kill Aura", "Automatic sword hits (Range 20)", function(v) end)
-    AddFeature(GameTab, "Auto-Bridge", "Builds blocks automatically as you walk", function(v) end)
-end
+Combat.Visible = true
 
--- [[ LOADOUT: VISUALS ]]
-AddFeature(Visuals, "Full-Body Highlight", "See everyone in Neon Red", function(v) end)
-AddFeature(Visuals, "Tracer Lines", "Draw lines to every player position", function(v) end)
-
-MainTab.Visible = true
+-- [ FEATURES ]
+AddFeature(Combat, "Silent Aim Engine", "Precision bullet redirection", function(v) end)
+AddFeature(Combat, "Universal Kill Aura", "Auto-hit entities in range", function(v) end)
+AddFeature(Visuals, "High-Res ESP", "Box, Skeleton, and Tracers", function(v) end)
+AddFeature(Opus, "Scrap Magnet", "Lethal Company Item Gathering", function(v) end)
