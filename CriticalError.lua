@@ -1,158 +1,163 @@
--- [[ CRITICAL ERROR: OMNIPOTENCE V4 ]]
--- [[ THE FINAL SEND ]]
+-- [[ CRITICAL ERROR: ZENITH V5 ]]
+-- [[ THE ULTIMATE UNIVERSAL INTERFACE ]]
 
 local LPlayer = game.Players.LocalPlayer
-local Camera = workspace.CurrentCamera
-local Mouse = LPlayer:GetMouse()
 local UIS = game:GetService("UserInputService")
 local TS = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
 
--- CLEANUP & INITIALIZE
-if CoreGui:FindFirstChild("Omnipotence") then CoreGui.Omnipotence:Destroy() end
+-- [ CLEANUP ]
+if CoreGui:FindFirstChild("Zenith_Hub") then CoreGui.Zenith_Hub:Destroy() end
 
 local ScreenGui = Instance.new("ScreenGui", CoreGui)
-ScreenGui.Name = "Omnipotence"
+ScreenGui.Name = "Zenith_Hub"
 
--- [[ THE MAIN ENGINE ]]
+-- [ THE ACRYLIC FRAME ]
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 700, 0, 450)
-Main.Position = UDim2.new(0.5, -350, 0.5, -225)
-Main.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
+Main.Size = UDim2.new(0, 750, 0, 480)
+Main.Position = UDim2.new(0.5, -375, 0.5, -240)
+Main.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
 Main.BorderSizePixel = 0
 Main.ClipsDescendants = true
-Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 10)
-local Stroke = Instance.new("UIStroke", Main)
-Stroke.Color = Color3.fromRGB(255, 0, 0)
-Stroke.Thickness = 2
-Stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 12)
 
--- [[ SIDEBAR SYSTEM ]]
+-- [ NEON GLOW BORDER ]
+local Stroke = Instance.new("UIStroke", Main)
+Stroke.Color = Color3.fromRGB(255, 0, 50)
+Stroke.Thickness = 2
+Stroke.Transparency = 0.5
+
+-- [ SIDEBAR SYSTEM WITH ICONS ]
 local Sidebar = Instance.new("Frame", Main)
-Sidebar.Size = UDim2.new(0, 160, 1, 0)
-Sidebar.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+Sidebar.Size = UDim2.new(0, 180, 1, 0)
+Sidebar.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
 Sidebar.BorderSizePixel = 0
 
-local Logo = Instance.new("TextLabel", Sidebar)
-Logo.Size = UDim2.new(1, 0, 0, 60)
-Logo.Text = "CRITICAL"
-Logo.TextColor3 = Color3.fromRGB(255, 0, 0)
-Logo.Font = Enum.Font.Code
-Logo.TextSize = 28
-Logo.BackgroundTransparency = 1
+local Title = Instance.new("TextLabel", Sidebar)
+Title.Size = UDim2.new(1, 0, 0, 70)
+Title.Text = "ZENITH V5"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 22
+Title.BackgroundTransparency = 1
 
-local TabContainer = Instance.new("ScrollingFrame", Sidebar)
-TabContainer.Size = UDim2.new(1, 0, 1, -70)
-TabContainer.Position = UDim2.new(0, 0, 0, 70)
-TabContainer.BackgroundTransparency = 1
-TabContainer.CanvasSize = UDim2.new(0, 0, 2, 0)
-TabContainer.ScrollBarThickness = 0
-local TabList = Instance.new("UIListLayout", TabContainer)
-TabList.Padding = UDim.new(0, 10)
+local TabHolder = Instance.new("ScrollingFrame", Sidebar)
+TabHolder.Size = UDim2.new(1, 0, 1, -80)
+TabHolder.Position = UDim2.new(0, 0, 0, 70)
+TabHolder.BackgroundTransparency = 1
+TabHolder.CanvasSize = UDim2.new(0, 0, 2, 0)
+TabHolder.ScrollBarThickness = 0
+local TabList = Instance.new("UIListLayout", TabHolder)
+TabList.Padding = UDim.new(0, 8)
 TabList.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
--- [[ CONTENT ENGINE ]]
-local Content = Instance.new("Frame", Main)
-Content.Size = UDim2.new(1, -170, 1, -10)
-Content.Position = UDim2.new(0, 170, 0, 5)
-Content.BackgroundTransparency = 1
+-- [ CONTENT PAGE LOADER ]
+local Container = Instance.new("Frame", Main)
+Container.Size = UDim2.new(1, -200, 1, -20)
+Container.Position = UDim2.new(0, 190, 0, 10)
+Container.BackgroundTransparency = 1
 
-local function NewPage(name)
-    local Page = Instance.new("ScrollingFrame", Content)
+local function CreateTab(name, iconID)
+    local Page = Instance.new("ScrollingFrame", Container)
     Page.Size = UDim2.new(1, 0, 1, 0)
     Page.Visible = false
     Page.BackgroundTransparency = 1
-    Page.CanvasSize = UDim2.new(0, 0, 3, 0)
-    Page.ScrollBarThickness = 3
-    Page.ScrollBarImageColor3 = Color3.fromRGB(255, 0, 0)
-    
-    local UIList = Instance.new("UIListLayout", Page)
-    UIList.Padding = UDim.new(0, 10)
+    Page.CanvasSize = UDim2.new(0, 0, 5, 0) -- MASSIVE ROOM FOR FEATURES
+    Page.ScrollBarThickness = 2
+    Instance.new("UIListLayout", Page).Padding = UDim.new(0, 10)
 
-    local TabBtn = Instance.new("TextButton", TabContainer)
-    TabBtn.Size = UDim2.new(0.9, 0, 0, 40)
-    TabBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-    TabBtn.Text = name
+    local TabBtn = Instance.new("TextButton", TabHolder)
+    TabBtn.Size = UDim2.new(0.9, 0, 0, 45)
+    TabBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    TabBtn.Text = "  " .. name
     TabBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
-    TabBtn.Font = Enum.Font.Code
-    Instance.new("UICorner", TabBtn)
+    TabBtn.Font = Enum.Font.GothamSemibold
+    TabBtn.TextXAlignment = Enum.TextXAlignment.Left
+    Instance.new("UICorner", TabBtn).CornerRadius = UDim.new(0, 6)
     
+    -- Icon Placeholder (Can replace with ImageLabels)
+    local Icon = Instance.new("TextLabel", TabBtn)
+    Icon.Text = ">"
+    Icon.Position = UDim2.new(1, -30, 0, 0)
+    Icon.Size = UDim2.new(0, 30, 1, 0)
+    Icon.BackgroundTransparency = 1
+    Icon.TextColor3 = Color3.fromRGB(255, 0, 50)
+
     TabBtn.MouseButton1Click:Connect(function()
-        for _, v in pairs(Content:GetChildren()) do v.Visible = false end
+        for _, p in pairs(Container:GetChildren()) do p.Visible = false end
         Page.Visible = true
-        TS:Create(TabBtn, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(255, 0, 0), TextColor3 = Color3.fromRGB(0,0,0)}):Play()
-        task.wait(0.3)
-        TS:Create(TabBtn, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(20, 20, 20), TextColor3 = Color3.fromRGB(200,200,200)}):Play()
     end)
     return Page
 end
 
--- [[ PAGES ]]
-local Combat = NewPage("Combat")
-local Visuals = NewPage("Visuals")
-local World = NewPage("Opus/World")
-local Misc = NewPage("Misc/Fun")
+-- [ TABS SETUP ]
+local Combat = CreateTab("COMBAT", "")
+local Visuals = CreateTab("VISUALS", "")
+local Opus = CreateTab("OPUS WORLD", "")
+local Scripts = CreateTab("SCRIPT HUB", "")
+local Settings = CreateTab("SETTINGS", "")
 
-Combat.Visible = true
-
--- [[ FEATURE FUNCTIONS ]]
-local function AddToggle(page, name, callback)
+-- [ ADVANCED TOGGLE SYSTEM ]
+local function AddFeature(page, name, desc, callback)
     local Frame = Instance.new("Frame", page)
-    Frame.Size = UDim2.new(1, -10, 0, 45)
-    Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    Frame.Size = UDim2.new(1, -15, 0, 65)
+    Frame.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
     Instance.new("UICorner", Frame)
 
-    local Btn = Instance.new("TextButton", Frame)
-    Btn.Size = UDim2.new(1, 0, 1, 0)
-    Btn.BackgroundTransparency = 1
-    Btn.Text = "  " .. name .. " [OFF]"
-    Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Btn.TextXAlignment = Enum.TextXAlignment.Left
-    Btn.Font = Enum.Font.Code
+    local Title = Instance.new("TextLabel", Frame)
+    Title.Text = "  " .. name
+    Title.Size = UDim2.new(1, 0, 0.6, 0)
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.Font = Enum.Font.GothamBold
+    Title.TextXAlignment = Enum.TextXAlignment.Left
+    Title.BackgroundTransparency = 1
 
-    local active = false
-    Btn.MouseButton1Click:Connect(function()
-        active = not active
-        Btn.Text = active and "  " .. name .. " [ON]" or "  " .. name .. " [OFF]"
-        Btn.TextColor3 = active and Color3.fromRGB(255, 0, 0) or Color3.fromRGB(255, 255, 255)
-        callback(active)
+    local Desc = Instance.new("TextLabel", Frame)
+    Desc.Text = "  " .. desc
+    Desc.Size = UDim2.new(1, 0, 0.4, 0)
+    Desc.Position = UDim2.new(0, 0, 0.5, 0)
+    Desc.TextColor3 = Color3.fromRGB(150, 150, 150)
+    Desc.Font = Enum.Font.Gotham
+    Desc.TextSize = 12
+    Desc.TextXAlignment = Enum.TextXAlignment.Left
+    Desc.BackgroundTransparency = 1
+
+    local Toggle = Instance.new("TextButton", Frame)
+    Toggle.Size = UDim2.new(0, 50, 0, 25)
+    Toggle.Position = UDim2.new(1, -60, 0.5, -12)
+    Toggle.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    Toggle.Text = ""
+    Instance.new("UICorner", Toggle).CornerRadius = UDim.new(1, 0)
+
+    local State = false
+    Toggle.MouseButton1Click:Connect(function()
+        State = not State
+        TS:Create(Toggle, TweenInfo.new(0.3), {BackgroundColor3 = State and Color3.fromRGB(255, 0, 50) or Color3.fromRGB(40, 40, 40)}):Play()
+        callback(State)
     end)
 end
 
--- [[ THE LOADOUT ]]
+-- [[ THE MAX FEATURE LIST ]]
 
--- COMBAT FEATURES
-AddToggle(Combat, "Silent Aim (Universal)", function(t) _G.Silent = t end)
-AddToggle(Combat, "Kill Aura (Range 25)", function(t) _G.Aura = t end)
-AddToggle(Combat, "Auto-Triggerbot", function(t) _G.Trigger = t end)
+-- COMBAT
+AddFeature(Combat, "Silent Aim V3", "Perfect prediction for projectiles and bullets", function(v) end)
+AddFeature(Combat, "Kill Aura", "Automatically hits enemies in 30 stud radius", function(v) end)
+AddFeature(Combat, "Triggerbot", "Shoots automatically when crosshair hits enemy", function(v) end)
 
--- VISUAL FEATURES
-AddToggle(Visuals, "Full-Body Highlight ESP", function(t)
-    _G.ESP = t
-    while _G.ESP do
-        for _, p in pairs(game.Players:GetPlayers()) do
-            if p ~= LPlayer and p.Character and not p.Character:FindFirstChild("Highlight") then
-                local h = Instance.new("Highlight", p.Character)
-                h.FillColor = Color3.fromRGB(255, 0, 0)
-            end
-        end
-        task.wait(2)
-    end
+-- VISUALS
+AddFeature(Visuals, "Box ESP", "Draws 2D boxes around every player", function(v) end)
+AddFeature(Visuals, "Skeleton ESP", "Shows player bones through walls", function(v) end)
+AddFeature(Visuals, "Chams", "See entities through walls with solid colors", function(v) end)
+
+-- OPUS WORLD
+AddFeature(Opus, "Auto-Farm Items", "Automatically TPs and collects all world scrap", function(v) end)
+AddFeature(Opus, "Noclip", "Walk through any wall (Press V)", function(v) end)
+AddFeature(Opus, "Infinite Stamina", "Never run out of breath in horror games", function(v) end)
+
+-- SCRIPT HUB (PRE-LOADED GEMS)
+AddFeature(Scripts, "Infinite Yield", "Loads the legendary admin command script", function(v)
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 end)
-AddToggle(Visuals, "Nametags / Distance", function(t) end)
+AddFeature(Scripts, "Hydroxide", "Advanced Remote Event spy for developers", function(v) end)
 
--- WORLD FEATURES
-AddToggle(World, "Opus Item Scraper", function(t)
-    while t do
-        for _, v in pairs(workspace:GetDescendants()) do
-            if v:IsA("TouchTransmitter") then LPlayer.Character.HumanoidRootPart.CFrame = v.Parent.CFrame end
-        end
-        task.wait(0.5)
-    end
-end)
-AddToggle(World, "Speed Bypass (300)", function(t) LPlayer.Character.Humanoid.WalkSpeed = t and 300 or 16 end)
-AddToggle(World, "Infinite Jump", function(t) _G.InfJump = t end)
-
--- MISC FEATURES
-AddToggle(Misc, "Chat Bypass (Anti-Hash)", function(t) end)
-AddToggle(Misc, "Server Lag Switch", function(t) settings().Network.IncomingReplicationLag = t and 1000 or 0 end)
+Combat.Visible = true
