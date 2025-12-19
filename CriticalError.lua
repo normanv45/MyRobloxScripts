@@ -1,103 +1,156 @@
--- [[ CRITICAL ERROR: UNIVERSAL MASTER ENGINE ]]
+-- [[ CRITICAL ERROR: V2 HORIZON NATIVE ]]
 local LPlayer = game.Players.LocalPlayer
 local UIS = game:GetService("UserInputService")
 local TS = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
 
--- 1. THE CUSTOM "SEND IT" LOADER
-local Loader = Instance.new("ScreenGui", CoreGui)
-local LFrame = Instance.new("Frame", Loader)
-LFrame.Size = UDim2.new(0, 350, 0, 120)
-LFrame.Position = UDim2.new(0.5, -175, 0.5, -60)
-LFrame.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
-Instance.new("UIStroke", LFrame).Color = Color3.fromRGB(255, 0, 0)
+-- Clean up old versions
+if CoreGui:FindFirstChild("Horizon_Hub") then CoreGui.Horizon_Hub:Destroy() end
 
-local LText = Instance.new("TextLabel", LFrame)
-LText.Size = UDim2.new(1, 0, 1, 0)
-LText.Text = "INITIALIZING CRITICAL ERROR..."
-LText.TextColor3 = Color3.fromRGB(255, 0, 0)
-LText.Font = Enum.Font.Code
-LText.BackgroundTransparency = 1
-
-local function UpdateLoad(text) LText.Text = text task.wait(0.8) end
-UpdateLoad("BYPASSING ROBLOX SECURITY...")
-UpdateLoad("SCRAPING UNIVERSAL REPOSITORIES...")
-UpdateLoad("OPTIMIZING 24GB BUFFER...")
-Loader:Destroy()
-
--- 2. THE MAIN HUB DESIGN
 local ScreenGui = Instance.new("ScreenGui", CoreGui)
+ScreenGui.Name = "Horizon_Hub"
+
+-- MAIN FRAME
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 550, 0, 400)
-Main.Position = UDim2.new(0.5, -275, 0.5, -200)
-Main.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+Main.Size = UDim2.new(0, 550, 0, 350)
+Main.Position = UDim2.new(0.5, -275, 0.5, -175)
+Main.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+Main.BorderSizePixel = 0
 Main.Active = true
-Main.Draggable = true
+Main.Draggable = true -- Standard for exploit menus
 
-local SideBar = Instance.new("Frame", Main)
-SideBar.Size = UDim2.new(0, 150, 1, 0)
-SideBar.BackgroundColor3 = Color3.fromRGB(20, 0, 0)
+-- NEON ACCENT BORDER
+local Stroke = Instance.new("UIStroke", Main)
+Stroke.Color = Color3.fromRGB(255, 0, 50)
+Stroke.Thickness = 2
 
-local Title = Instance.new("TextLabel", SideBar)
-Title.Size = UDim2.new(1, 0, 0, 50)
-Title.Text = "CRITICAL\nERROR"
-Title.TextColor3 = Color3.fromRGB(255, 0, 0)
+-- TOP BAR (Minimize / Close)
+local TopBar = Instance.new("Frame", Main)
+TopBar.Size = UDim2.new(1, 0, 0, 35)
+TopBar.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+TopBar.BorderSizePixel = 0
+
+local Title = Instance.new("TextLabel", TopBar)
+Title.Text = "  CRITICAL ERROR // V2"
+Title.Size = UDim2.new(0.7, 0, 1, 0)
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.Font = Enum.Font.Code
 Title.BackgroundTransparency = 1
+Title.TextXAlignment = Enum.TextXAlignment.Left
 
--- 3. THE GIDDY SCROLLER (The Scrollable Feature List)
-local Scroll = Instance.new("ScrollingFrame", Main)
-Scroll.Size = UDim2.new(1, -170, 1, -20)
-Scroll.Position = UDim2.new(0, 160, 0, 10)
-Scroll.BackgroundTransparency = 1
-Scroll.CanvasSize = UDim2.new(0, 0, 3, 0) -- Heavy scrolling for many scripts
-Scroll.ScrollBarThickness = 2
+-- THE MINIMIZE SYSTEM
+local Minimized = false
+local MinBtn = Instance.new("TextButton", TopBar)
+MinBtn.Text = "-"
+MinBtn.Size = UDim2.new(0, 35, 0, 35)
+MinBtn.Position = UDim2.new(1, -70, 0, 0)
+MinBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+MinBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 
-local UIList = Instance.new("UIListLayout", Scroll)
-UIList.Padding = UDim.new(0, 8)
-
--- 4. THE ULTIMATE FEATURE FUNCTION
-local function AddScript(name, desc, func)
-    local b = Instance.new("TextButton", Scroll)
-    b.Size = UDim2.new(1, -10, 0, 50)
-    b.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-    b.Text = name .. "\n" .. desc
-    b.TextColor3 = Color3.fromRGB(255, 255, 255)
-    b.Font = Enum.Font.SourceSans
-    b.TextSize = 14
-    b.MouseButton1Click:Connect(func)
-end
-
--- 5. PLUGGING IN THE SCRIPTS
-AddScript("OPUS UNIVERSAL SILENT AIM", "Redirects bullets to closest head", function()
-    -- Logic for Silent Aim
-end)
-
-AddScript("OPUS WORLD SCRAPER", "TP to nearest item/currency", function()
-    for _, v in pairs(workspace:GetDescendants()) do
-        if v:IsA("TouchTransmitter") then
-            LPlayer.Character.HumanoidRootPart.CFrame = v.Parent.CFrame
-            break
-        end
+MinBtn.MouseButton1Click:Connect(function()
+    Minimized = not Minimized
+    if Minimized then
+        Main:TweenSize(UDim2.new(0, 550, 0, 35), "Out", "Quint", 0.3, true)
+        task.wait(0.3)
+        Main.ClipsDescendants = true
+    else
+        Main.ClipsDescendants = false
+        Main:TweenSize(UDim2.new(0, 550, 0, 350), "Out", "Quint", 0.3, true)
     end
 end)
 
-AddScript("LAG SWITCH (G)", "Freeze server locally", function()
-    local lagging = false
-    UIS.InputBegan:Connect(function(i)
-        if i.KeyCode == Enum.KeyCode.G then
-            lagging = not lagging
-            settings().Network.IncomingReplicationLag = lagging and 1000 or 0
-        end
+-- SIDEBAR (For Tabs)
+local Sidebar = Instance.new("Frame", Main)
+Sidebar.Size = UDim2.new(0, 130, 1, -35)
+Sidebar.Position = UDim2.new(0, 0, 0, 35)
+Sidebar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+Sidebar.BorderSizePixel = 0
+
+local TabContainer = Instance.new("ScrollingFrame", Sidebar)
+TabContainer.Size = UDim2.new(1, 0, 1, 0)
+TabContainer.BackgroundTransparency = 1
+TabContainer.CanvasSize = UDim2.new(0, 0, 1.5, 0)
+TabContainer.ScrollBarThickness = 0
+
+local TabList = Instance.new("UIListLayout", TabContainer)
+TabList.HorizontalAlignment = Enum.HorizontalAlignment.Center
+TabList.Padding = UDim.new(0, 5)
+
+-- CONTENT AREA (Where buttons go)
+local Content = Instance.new("Frame", Main)
+Content.Size = UDim2.new(1, -140, 1, -45)
+Content.Position = UDim2.new(0, 135, 0, 40)
+Content.BackgroundTransparency = 1
+
+local Pages = {}
+local function CreatePage(name)
+    local Page = Instance.new("ScrollingFrame", Content)
+    Page.Size = UDim2.new(1, 0, 1, 0)
+    Page.BackgroundTransparency = 1
+    Page.Visible = false
+    Page.CanvasSize = UDim2.new(0, 0, 2, 0)
+    Page.ScrollBarThickness = 2
+    
+    local PageList = Instance.new("UIListLayout", Page)
+    PageList.Padding = UDim.new(0, 10)
+    
+    local TabBtn = Instance.new("TextButton", TabContainer)
+    TabBtn.Size = UDim2.new(0.9, 0, 0, 35)
+    TabBtn.Text = name
+    TabBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    TabBtn.TextColor3 = Color3.fromRGB(150, 150, 150)
+    TabBtn.Font = Enum.Font.Code
+    
+    TabBtn.MouseButton1Click:Connect(function()
+        for _, p in pairs(Pages) do p.Visible = false end
+        Page.Visible = true
     end)
+    
+    Pages[name] = Page
+    return Page
+end
+
+-- 2. ADDING THE BETTER TABS
+local Combat = CreatePage("Combat")
+local Visuals = CreatePage("Visuals")
+local Opus = CreatePage("Opus/World")
+
+-- UNIVERSAL BUTTON CREATOR
+local function AddToggle(page, name, callback)
+    local b = Instance.new("TextButton", page)
+    b.Size = UDim2.new(1, -10, 0, 40)
+    b.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    b.Text = "  [OFF] " .. name
+    b.TextColor3 = Color3.fromRGB(255, 255, 255)
+    b.Font = Enum.Font.Code
+    b.TextXAlignment = Enum.TextXAlignment.Left
+    
+    local enabled = false
+    b.MouseButton1Click:Connect(function()
+        enabled = not enabled
+        b.Text = enabled and "  [ON] " .. name or "  [OFF] " .. name
+        b.TextColor3 = enabled and Color3.fromRGB(255, 0, 50) or Color3.fromRGB(255, 255, 255)
+        callback(enabled)
+    end)
+end
+
+-- 3. LOAD THE GOD FEATURES
+Combat.Visible = true -- Set default page
+
+AddToggle(Combat, "Silent Aim", function(v) _G.SilentAim = v end)
+AddToggle(Combat, "Kill Aura", function(v) _G.Aura = v end)
+
+AddToggle(Visuals, "Entity ESP", function(v) 
+    -- Trigger the ESP Highlight Script
 end)
 
-AddScript("FLY ENGINE (E)", "Full aerial control", function()
-    -- Fly code here
-end)
-
-AddScript("FPS BOOSTER", "Deletes textures for max speed", function()
-    for _, v in pairs(game:GetDescendants()) do
-        if v:IsA("DataModelMesh") or v:IsA("Texture") then v:Destroy() end
+AddToggle(Opus, "Auto-Collect Scrap", function(v)
+    while v do
+        for _, obj in pairs(workspace:GetDescendants()) do
+            if obj:IsA("TouchTransmitter") then
+                LPlayer.Character.HumanoidRootPart.CFrame = obj.Parent.CFrame
+            end
+        end
+        task.wait(1)
     end
 end)
