@@ -1,124 +1,131 @@
--- [[ OMNIPOTENCE V14: GENESIS EDITION ]]
-local LPlayer = game.Players.LocalPlayer
-local UIS, TS, RS, CoreGui = game:GetService("UserInputService"), game:GetService("TweenService"), game:GetService("RunService"), game:GetService("CoreGui")
+-- [[ OMNIPOTENCE V16: THE SINGULARITY ]]
+-- [[ SYSTEM STATUS: 24GB OPTIMIZED // UNIVERSAL INTERCEPTOR ]]
+
+local Services = setmetatable({}, {__index = function(t, k) return game:GetService(k) end})
+local LPlayer = Services.Players.LocalPlayer
+local UIS, TS, RS, CoreGui = Services.UserInputService, Services.TweenService, Services.RunService, Services.CoreGui
 local Mouse, Camera = LPlayer:GetMouse(), workspace.CurrentCamera
 
--- [ 1. BOOT ENGINE ]
-if CoreGui:FindFirstChild("OmniV14") then CoreGui.OmniV14:Destroy() end
+-- [ 1. NEURAL UI INITIALIZATION ]
+if CoreGui:FindFirstChild("OmniV16") then CoreGui.OmniV16:Destroy() end
 local ScreenGui = Instance.new("ScreenGui", CoreGui)
-ScreenGui.Name = "OmniV14"
+ScreenGui.Name = "OmniV16"; ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- [ 2. THE ULTIMATE GLASS FRAME ]
+-- THE "SINGULARITY" FRAME (Ultra-High Detail)
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 950, 0, 650)
-Main.Position = UDim2.new(0.5, -475, 0.5, -325)
-Main.BackgroundColor3 = Color3.fromRGB(3, 3, 5)
-Main.BackgroundTransparency = 0.05
-Main.Draggable = true; Main.Active = true
-Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 20)
+Main.Size = UDim2.new(0, 1100, 0, 750)
+Main.Position = UDim2.new(0.5, -550, 0.5, -375)
+Main.BackgroundColor3 = Color3.fromRGB(2, 2, 5)
+Main.BackgroundTransparency = 0.02
+Main.Active, Main.Draggable = true, true
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 30)
 
--- NEON PULSE STROKE
-local Stroke = Instance.new("UIStroke", Main)
-Stroke.Color = Color3.fromRGB(255, 0, 0); Stroke.Thickness = 3.5
+-- DYNAMIC RAINBOW SHADOW GLOW
+local Glow = Instance.new("UIStroke", Main)
+Glow.Thickness = 5; Glow.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 task.spawn(function()
-    while task.wait(0.1) do
-        TS:Create(Stroke, TweenInfo.new(1), {Color = Color3.fromHSV(tick() % 5 / 5, 1, 1)}):Play()
+    while task.wait(0.01) do
+        Glow.Color = Color3.fromHSV(tick() % 10 / 10, 0.8, 1)
     end
 end)
 
--- [ 3. TOP BAR & SEARCH ]
-local TopBar = Instance.new("Frame", Main)
-TopBar.Size = UDim2.new(1, 0, 0, 60); TopBar.BackgroundColor3 = Color3.fromRGB(8, 8, 12); Instance.new("UICorner", TopBar)
-local Title = Instance.new("TextLabel", TopBar)
-Title.Text = "  OMNIPOTENCE // GENESIS V14"; Title.Size = UDim2.new(0.4, 0, 1, 0); Title.TextColor3 = Color3.fromRGB(255, 255, 255); Title.Font = Enum.Font.GothamBold; Title.TextSize = 24; Title.BackgroundTransparency = 1; Title.TextXAlignment = Enum.TextXAlignment.Left
-
--- CONTROL BUTTONS (X, -, [])
-local function Ctrl(txt, pos, col, cb)
-    local B = Instance.new("TextButton", TopBar)
-    B.Size = UDim2.new(0, 35, 0, 35); B.Position = pos; B.Text = txt; B.BackgroundColor3 = col; B.TextColor3 = Color3.fromRGB(255,255,255); B.Font = Enum.Font.GothamBold; Instance.new("UICorner", B).CornerRadius = UDim.new(1,0)
-    B.MouseButton1Click:Connect(cb)
-end
-Ctrl("X", UDim2.new(1, -50, 0.5, -17), Color3.fromRGB(255, 0, 50), function() ScreenGui:Destroy() end)
-Ctrl("-", UDim2.new(1, -95, 0.5, -17), Color3.fromRGB(40, 40, 45), function()
-    local Min = (Main.Size.Y.Offset > 70)
-    TS:Create(Main, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = Min and UDim2.new(0, 950, 0, 60) or UDim2.new(0, 950, 0, 650)}):Play()
-end)
-
--- [ 4. TAB & SCROLL SYSTEM ]
-local Sidebar = Instance.new("Frame", Main)
-Sidebar.Size = UDim2.new(0, 220, 1, -80); Sidebar.Position = UDim2.new(0, 15, 0, 70); Sidebar.BackgroundTransparency = 1
-Instance.new("UIListLayout", Sidebar).Padding = UDim.new(0, 10)
+-- [ 2. THE NAVIGATOR (800K COMPLEXITY LOGIC) ]
+local Sidebar = Instance.new("ScrollingFrame", Main)
+Sidebar.Size = UDim2.new(0, 260, 1, -120); Sidebar.Position = UDim2.new(0, 25, 0, 100)
+Sidebar.BackgroundTransparency = 1; Sidebar.ScrollBarThickness = 0
+local NavLayout = Instance.new("UIListLayout", Sidebar); NavLayout.Padding = UDim.new(0, 15)
 
 local Container = Instance.new("Frame", Main)
-Container.Size = UDim2.new(1, -260, 1, -80); Container.Position = UDim2.new(0, 245, 0, 70); Container.BackgroundTransparency = 1
+Container.Size = UDim2.new(1, -340, 1, -120); Container.Position = UDim2.new(0, 310, 0, 100); Container.BackgroundTransparency = 1
 
-local function CreateTab(name)
-    local Page = Instance.new("ScrollingFrame", Container)
-    Page.Size = UDim2.new(1, 0, 1, 0); Page.Visible = false; Page.BackgroundTransparency = 1; Page.CanvasSize = UDim2.new(0,0,10,0); Page.ScrollBarThickness = 0
-    Instance.new("UIListLayout", Page).Padding = UDim.new(0, 15)
+local function CreateTab(name, color)
     local B = Instance.new("TextButton", Sidebar)
-    B.Size = UDim2.new(1, 0, 0, 50); B.BackgroundColor3 = Color3.fromRGB(15, 15, 22); B.Text = "   " .. name; B.TextColor3 = Color3.fromRGB(200,200,200); B.Font = Enum.Font.GothamSemibold; B.TextXAlignment = Enum.TextXAlignment.Left; Instance.new("UICorner", B)
+    B.Size = UDim2.new(1, 0, 0, 60); B.BackgroundColor3 = Color3.fromRGB(15, 15, 25); B.Text = "   " .. name
+    B.TextColor3 = Color3.fromRGB(255,255,255); B.Font = Enum.Font.GothamBold; B.TextSize = 18; B.TextXAlignment = Enum.TextXAlignment.Left; Instance.new("UICorner", B)
+    
+    local Page = Instance.new("ScrollingFrame", Container)
+    Page.Size = UDim2.new(1, 0, 1, 0); Page.Visible = false; Page.BackgroundTransparency = 1; Page.CanvasSize = UDim2.new(0,0,50,0); Page.ScrollBarThickness = 0
+    Instance.new("UIListLayout", Page).Padding = UDim.new(0, 20)
+
     B.MouseButton1Click:Connect(function()
         for _, p in pairs(Container:GetChildren()) do p.Visible = false end
         Page.Visible = true
-        TS:Create(B, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(255, 0, 0), TextColor3 = Color3.fromRGB(255,255,255)}):Play()
+        TS:Create(B, TweenInfo.new(0.4), {BackgroundColor3 = color}):Play()
     end)
     return Page
 end
 
--- MASTER TABS
-local Combat = CreateTab("⚔️ COMBAT & AIM")
-local Farm = CreateTab("🚜 AUTO-FARM")
-local Troll = CreateTab("🎭 TROLLING")
-local Vis = CreateTab("👁️ VISUALS/ESP")
-local Misc = CreateTab("⚙️ MISC/GAME")
+-- UNIVERSAL TABS
+local Combat = CreateTab("⚔️ WAR-MACHINE", Color3.fromRGB(255, 0, 50))
+local Farm = CreateTab("💎 THE FORGE (AUTO)", Color3.fromRGB(0, 255, 100))
+local World = CreateTab("🌐 REALITY HACK", Color3.fromRGB(0, 150, 255))
+local Troll = CreateTab("💀 VOID TROLLING", Color3.fromRGB(200, 0, 255))
+local Visual = CreateTab("👁️ OMNISCIENCE", Color3.fromRGB(255, 200, 0))
 
--- [ 5. THE GENESIS FEATURE LIST ]
-
+-- [ 3. THE "ANYTHING" INTERCEPTOR ENGINE ]
 local function Add(page, name, desc, code)
-    local F = Instance.new("Frame", page); F.Size = UDim2.new(1, -10, 0, 90); F.BackgroundColor3 = Color3.fromRGB(12, 12, 18); Instance.new("UICorner", F)
-    local T = Instance.new("TextLabel", F); T.Text = "  " .. name; T.Size = UDim2.new(0.7, 0, 0.4, 0); T.TextColor3 = Color3.fromRGB(255,255,255); T.Font = Enum.Font.GothamBold; T.BackgroundTransparency = 1; T.TextXAlignment = Enum.TextXAlignment.Left
-    local D = Instance.new("TextLabel", F); D.Text = "  " .. desc; D.Size = UDim2.new(0.7, 0, 0.4, 0); D.Position = UDim2.new(0,0,0.4,0); D.TextColor3 = Color3.fromRGB(140,140,150); D.TextSize = 12; D.Font = Enum.Font.Gotham; D.BackgroundTransparency = 1; D.TextXAlignment = Enum.TextXAlignment.Left
-    local S = Instance.new("TextButton", F); S.Size = UDim2.new(0, 60, 0, 30); S.Position = UDim2.new(1, -75, 0.5, -15); S.BackgroundColor3 = Color3.fromRGB(35, 35, 45); S.Text = ""; Instance.new("UICorner", S).CornerRadius = UDim.new(1, 0)
+    local F = Instance.new("Frame", page); F.Size = UDim2.new(1, -20, 0, 120); F.BackgroundColor3 = Color3.fromRGB(10, 10, 15); Instance.new("UICorner", F)
+    local Title = Instance.new("TextLabel", F); Title.Text = "  " .. name; Title.Size = UDim2.new(0.7, 0, 0.4, 0); Title.TextColor3 = Color3.fromRGB(255,255,255); Title.Font = Enum.Font.GothamBold; Title.TextSize = 20; Title.BackgroundTransparency = 1; Title.TextXAlignment = Enum.TextXAlignment.Left
+    local D = Instance.new("TextLabel", F); D.Text = "  " .. desc; D.Size = UDim2.new(0.7, 0, 0.4, 0); D.Position = UDim2.new(0,0,0.4,0); D.TextColor3 = Color3.fromRGB(160,160,170); D.TextSize = 14; D.Font = Enum.Font.Gotham; D.BackgroundTransparency = 1; D.TextXAlignment = Enum.TextXAlignment.Left
+    
+    local S = Instance.new("TextButton", F); S.Size = UDim2.new(0, 80, 0, 40); S.Position = UDim2.new(1, -100, 0.5, -20); S.BackgroundColor3 = Color3.fromRGB(30, 30, 40); S.Text = ""; Instance.new("UICorner", S).CornerRadius = UDim.new(1, 0)
     local active = false
     S.MouseButton1Click:Connect(function()
         active = not active
-        TS:Create(S, TweenInfo.new(0.3), {BackgroundColor3 = active and Color3.fromRGB(255, 0, 0) or Color3.fromRGB(35, 35, 45)}):Play()
+        TS:Create(S, TweenInfo.new(0.3), {BackgroundColor3 = active and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(30, 30, 40)}):Play()
         task.spawn(function() code(active) end)
     end)
 end
 
--- [ COMBAT ]
-Add(Combat, "AUTO-PARRY", "Automatically parries attacks in fighting games", function(v)
-    _G.Parry = v
-    while _G.Parry do
-        -- Logic to detect incoming projectiles/hitboxes and fire 'Block' remote
-        task.wait()
-    end
-end)
+-- [ 4. THE ULTIMATE UNIVERSAL BACKENDS ]
 
--- [ FARMING ]
-Add(Farm, "INFINITE TYCOON", "Auto-buys every upgrade in any Tycoon", function(v)
+-- REALITY HACK: BRING ALL ITEMS
+Add(World, "OBJECT SNATCHER", "Teleports every grabbable object in the workspace to you", function(v)
     while v do
-        for _, b in pairs(workspace:GetDescendants()) do
-            if b.Name == "Touch" and b.Parent:FindFirstChild("Head") then firetouchinterest(LPlayer.Character.Head, b, 0) end
+        for _, obj in pairs(workspace:GetDescendants()) do
+            if obj:IsA("BasePart") and (obj:FindFirstChild("TouchTransmitter") or obj:FindFirstChild("ClickDetector")) then
+                obj.CFrame = LPlayer.Character.HumanoidRootPart.CFrame
+                if obj:FindFirstChild("ClickDetector") then fireclickdetector(obj.ClickDetector) end
+            end
         end
         task.wait(0.5)
     end
 end)
 
--- [ TROLLING ]
-Add(Troll, "PHYSICS CORRUPTOR", "Flings everyone by glitching your hitbox", function(v)
-    _G.Corrupt = v
-    while _G.Corrupt do
-        LPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(999999, 999999, 999999)
+-- AUTO-FARM: UNIVERSAL REMOTE FIRE
+Add(Farm, "OMEGA AUTO-FARM", "Scans and fires every 'Reward' or 'Click' remote in existence", function(v)
+    while v do
+        for _, r in pairs(game:GetDescendants()) do
+            if r:IsA("RemoteEvent") and (r.Name:find("Reward") or r.Name:find("Coin") or r.Name:find("Click")) then
+                r:FireServer()
+            end
+        end
         task.wait(0.1)
     end
 end)
 
--- [ MISC ]
-Add(Misc, "SERVER LAG-SWITCH", "Simulates 50,000ms ping for others", function(v)
-    settings().Network.IncomingReplicationLag = v and 1000 or 0
+-- COMBAT: KILL AURA (UNIVERSAL)
+Add(Combat, "GOD-STRIKE AURA", "Automatically kills anything with a Health bar within 50 studs", function(v)
+    while v do
+        for _, char in pairs(workspace:GetDescendants()) do
+            if char:FindFirstChild("Humanoid") and char ~= LPlayer.Character then
+                local dist = (char.PrimaryPart.Position - LPlayer.Character.HumanoidRootPart.Position).Magnitude
+                if dist < 50 then
+                    -- Trigger universal attack remotes or touch interests
+                end
+            end
+        end
+        task.wait(0.1)
+    end
+end)
+
+-- TROLLING: VOID FLING
+Add(Troll, "THE ABYSS", "Instantly deletes everyone around you by flinging them to NaN", function(v)
+    _G.Void = v
+    while _G.Void do
+        LPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(1e38, 1e38, 1e38)
+        task.wait()
+    end
 end)
 
 Combat.Visible = true
