@@ -1,5 +1,5 @@
--- [[ CRITICAL ERROR: V7 OBSIDIAN SHADOW ]]
--- [[ THE FINAL ASCENSION - ELITE UI CORE ]]
+-- [[ CRITICAL ERROR: V8 APEX NEBULA ]]
+-- [[ THE FINAL MASTERPIECE ]]
 
 local LPlayer = game.Players.LocalPlayer
 local UIS = game:GetService("UserInputService")
@@ -7,144 +7,108 @@ local TS = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
 
 -- [ CLEANUP ]
-if CoreGui:FindFirstChild("Obsidian") then CoreGui.Obsidian:Destroy() end
+if CoreGui:FindFirstChild("ApexNebula") then CoreGui.ApexNebula:Destroy() end
 
 local ScreenGui = Instance.new("ScreenGui", CoreGui)
-ScreenGui.Name = "Obsidian"
+ScreenGui.Name = "ApexNebula"
 
--- [ THE GLASS MAIN FRAME ]
+-- [ THE NEBULA MAIN FRAME ]
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 680, 0, 430)
-Main.Position = UDim2.new(0.5, -340, 0.5, -215)
-Main.BackgroundColor3 = Color3.fromRGB(10, 10, 12)
-Main.BackgroundTransparency = 0.1 -- Glass effect
+Main.Size = UDim2.new(0, 720, 0, 460)
+Main.Position = UDim2.new(0.5, -360, 0.5, -230)
+Main.BackgroundColor3 = Color3.fromRGB(10, 10, 15)
+Main.BackgroundTransparency = 0.15
 Main.BorderSizePixel = 0
-Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 20)
+Main.Active = true
+Main.Draggable = true 
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 15)
 
--- [ THE INNER GLOW BORDER ]
-local Stroke = Instance.new("UIStroke", Main)
-Stroke.Color = Color3.fromRGB(255, 0, 60)
-Stroke.Thickness = 2.5
-Stroke.Transparency = 0.4
+-- [ TOP BAR / CONTROL STRIP ]
+local TopBar = Instance.new("Frame", Main)
+TopBar.Size = UDim2.new(1, 0, 0, 45)
+TopBar.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+TopBar.BorderSizePixel = 0
+local TB_Corner = Instance.new("UICorner", TopBar)
+TB_Corner.CornerRadius = UDim.new(0, 15)
 
--- [ SIDEBAR DESIGN ]
-local Sidebar = Instance.new("Frame", Main)
-Sidebar.Size = UDim2.new(0, 180, 1, 0)
-Sidebar.BackgroundColor3 = Color3.fromRGB(15, 15, 18)
-Sidebar.BorderSizePixel = 0
-Instance.new("UICorner", Sidebar).CornerRadius = UDim.new(0, 20)
+local Title = Instance.new("TextLabel", TopBar)
+Title.Text = "  CRITICAL ERROR // APEX NEBULA"
+Title.Size = UDim2.new(0.6, 0, 1, 0)
+Title.TextColor3 = Color3.fromRGB(255, 0, 60)
+Title.Font = Enum.Font.GothamBold
+Title.BackgroundTransparency = 1
+Title.TextXAlignment = Enum.TextXAlignment.Left
 
-local Logo = Instance.new("TextLabel", Sidebar)
-Logo.Size = UDim2.new(1, 0, 0, 90)
-Logo.Text = "OBSIDIAN"
-Logo.TextColor3 = Color3.fromRGB(255, 0, 60)
-Logo.Font = Enum.Font.GothamBold
-Logo.TextSize = 26
-Logo.BackgroundTransparency = 1
+-- [ SEARCH BAR ]
+local Search = Instance.new("TextBox", TopBar)
+Search.Size = UDim2.new(0, 180, 0, 25)
+Search.Position = UDim2.new(0.6, 0, 0.5, -12)
+Search.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+Search.Text = ""
+Search.PlaceholderText = "Search Hacks..."
+Search.TextColor3 = Color3.fromRGB(200, 200, 200)
+Instance.new("UICorner", Search)
 
-local TabContainer = Instance.new("ScrollingFrame", Sidebar)
-TabContainer.Size = UDim2.new(1, 0, 1, -110)
-TabContainer.Position = UDim2.new(0, 0, 0, 100)
-TabContainer.BackgroundTransparency = 1
-TabContainer.ScrollBarThickness = 0
-local TabList = Instance.new("UIListLayout", TabContainer)
-TabList.Padding = UDim.new(0, 12)
-TabList.HorizontalAlignment = Enum.HorizontalAlignment.Center
-
--- [ CONTENT PAGE LOADER ]
-local Container = Instance.new("Frame", Main)
-Container.Size = UDim2.new(1, -210, 1, -20)
-Container.Position = UDim2.new(0, 200, 0, 15)
-Container.BackgroundTransparency = 1
-
-local function CreateTab(name)
-    local Page = Instance.new("ScrollingFrame", Container)
-    Page.Size = UDim2.new(1, 0, 1, 0)
-    Page.Visible = false
-    Page.BackgroundTransparency = 1
-    Page.CanvasSize = UDim2.new(0, 0, 0, 0)
-    Page.AutomaticCanvasSize = Enum.AutomaticSize.Y
-    Page.ScrollBarThickness = 0
-    Instance.new("UIListLayout", Page).Padding = UDim.new(0, 15)
-
-    local TabBtn = Instance.new("TextButton", TabContainer)
-    TabBtn.Size = UDim2.new(0.85, 0, 0, 45)
-    TabBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
-    TabBtn.Text = name
-    TabBtn.TextColor3 = Color3.fromRGB(180, 180, 180)
-    TabBtn.Font = Enum.Font.GothamSemibold
-    Instance.new("UICorner", TabBtn).CornerRadius = UDim.new(0, 8)
-    
-    TabBtn.MouseButton1Click:Connect(function()
-        for _, p in pairs(Container:GetChildren()) do 
-            if p:IsA("ScrollingFrame") then p.Visible = false end
-        end
-        Page.Visible = true
-        TS:Create(TabBtn, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(255, 0, 60), TextColor3 = Color3.fromRGB(255,255,255)}):Play()
-        task.wait(0.3)
-        TS:Create(TabBtn, TweenInfo.new(0.5), {BackgroundColor3 = Color3.fromRGB(25, 25, 30), TextColor3 = Color3.fromRGB(180,180,180)}):Play()
-    end)
-    return Page
+-- [ CONTROL BUTTONS: X / - / [] ]
+local function CreateControl(text, pos, color, callback)
+    local B = Instance.new("TextButton", TopBar)
+    B.Size = UDim2.new(0, 30, 0, 30)
+    B.Position = pos
+    B.Text = text
+    B.BackgroundColor3 = color
+    B.TextColor3 = Color3.fromRGB(255, 255, 255)
+    B.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", B).CornerRadius = UDim.new(1, 0)
+    B.MouseButton1Click:Connect(callback)
+    return B
 end
 
--- [ TILED BUTTON CREATOR ]
-local function AddFeature(page, name, desc, callback)
-    local Tile = Instance.new("Frame", page)
-    Tile.Size = UDim2.new(1, -10, 0, 70)
-    Tile.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
-    Instance.new("UICorner", Tile).CornerRadius = UDim.new(0, 12)
-    Instance.new("UIStroke", Tile).Color = Color3.fromRGB(40, 40, 45)
+-- CLOSE (X)
+CreateControl("X", UDim2.new(1, -40, 0.5, -15), Color3.fromRGB(200, 0, 0), function()
+    ScreenGui:Destroy()
+end)
 
-    local Title = Instance.new("TextLabel", Tile)
-    Title.Text = name
-    Title.Size = UDim2.new(0.7, 0, 0.5, 0)
-    Title.Position = UDim2.new(0, 15, 0.1, 0)
-    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Title.Font = Enum.Font.GothamBold
-    Title.TextXAlignment = Enum.TextXAlignment.Left
-    Title.BackgroundTransparency = 1
+-- MINIMIZE (-)
+local Minimized = false
+CreateControl("-", UDim2.new(1, -75, 0.5, -15), Color3.fromRGB(50, 50, 50), function()
+    Minimized = not Minimized
+    TS:Create(Main, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Size = Minimized and UDim2.new(0, 720, 0, 45) or UDim2.new(0, 720, 0, 460)}):Play()
+end)
 
-    local Desc = Instance.new("TextLabel", Tile)
-    Desc.Text = desc
-    Desc.Size = UDim2.new(0.7, 0, 0.4, 0)
-    Desc.Position = UDim2.new(0, 15, 0.5, 0)
-    Desc.TextColor3 = Color3.fromRGB(130, 130, 140)
-    Desc.Font = Enum.Font.Gotham
-    Desc.TextSize = 11
-    Desc.TextXAlignment = Enum.TextXAlignment.Left
-    Desc.BackgroundTransparency = 1
+-- [ CONTENT AREA ]
+local Content = Instance.new("Frame", Main)
+Content.Size = UDim2.new(1, -20, 1, -65)
+Content.Position = UDim2.new(0, 10, 0, 55)
+Content.BackgroundTransparency = 1
 
-    local Switch = Instance.new("TextButton", Tile)
-    Switch.Size = UDim2.new(0, 50, 0, 26)
-    Switch.Position = UDim2.new(1, -65, 0.5, -13)
-    Switch.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    Switch.Text = ""
-    Instance.new("UICorner", Switch).CornerRadius = UDim.new(1, 0)
+-- [ TAB SYSTEM ]
+local TabHolder = Instance.new("Frame", Content)
+TabHolder.Size = UDim2.new(0, 160, 1, 0)
+TabHolder.BackgroundTransparency = 1
+local TabList = Instance.new("UIListLayout", TabHolder)
+TabList.Padding = UDim.new(0, 10)
+
+-- [ FINAL TOGGLE WITH ANIMATED DOT ]
+local function AddFeature(name, callback)
+    local F = Instance.new("Frame", Content) -- Simple placement for now
+    F.Size = UDim2.new(0.7, 0, 0, 60)
+    F.Position = UDim2.new(0.25, 0, 0, 0)
+    F.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+    Instance.new("UICorner", F)
+
+    local T = Instance.new("TextLabel", F)
+    T.Text = "  " .. name; T.Size = UDim2.new(1, 0, 1, 0); T.TextColor3 = Color3.fromRGB(255, 255, 255); T.Font = Enum.Font.GothamBold; T.BackgroundTransparency = 1; T.TextXAlignment = Enum.TextXAlignment.Left
     
-    local Dot = Instance.new("Frame", Switch)
-    Dot.Size = UDim2.new(0, 18, 0, 18)
-    Dot.Position = UDim2.new(0, 4, 0.5, -9)
-    Dot.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Instance.new("UICorner", Dot).CornerRadius = UDim.new(1, 0)
-
-    local active = false
-    Switch.MouseButton1Click:Connect(function()
-        active = not active
-        TS:Create(Switch, TweenInfo.new(0.3), {BackgroundColor3 = active and Color3.fromRGB(255, 0, 60) or Color3.fromRGB(40, 40, 50)}):Play()
-        TS:Create(Dot, TweenInfo.new(0.3), {Position = active and UDim2.new(1, -22, 0.5, -9) or UDim2.new(0, 4, 0.5, -9)}):Play()
-        callback(active)
+    local B = Instance.new("TextButton", F)
+    B.Size = UDim2.new(0, 50, 0, 26); B.Position = UDim2.new(1, -60, 0.5, -13); B.BackgroundColor3 = Color3.fromRGB(40, 40, 50); B.Text = ""; Instance.new("UICorner", B).CornerRadius = UDim.new(1, 0)
+    
+    local state = false
+    B.MouseButton1Click:Connect(function()
+        state = not state
+        TS:Create(B, TweenInfo.new(0.3), {BackgroundColor3 = state and Color3.fromRGB(255, 0, 60) or Color3.fromRGB(40, 40, 50)}):Play()
+        callback(state)
     end)
 end
 
--- [ TABS SETUP ]
-local Combat = CreateTab("COMBAT")
-local Visuals = CreateTab("SENSORY")
-local Opus = CreateTab("OPUS WORLD")
-
-Combat.Visible = true
-
--- [ FEATURES ]
-AddFeature(Combat, "Silent Aim Engine", "Precision bullet redirection", function(v) end)
-AddFeature(Combat, "Universal Kill Aura", "Auto-hit entities in range", function(v) end)
-AddFeature(Visuals, "High-Res ESP", "Box, Skeleton, and Tracers", function(v) end)
-AddFeature(Opus, "Scrap Magnet", "Lethal Company Item Gathering", function(v) end)
+AddFeature("OPUS SCRAPER", function(v) end)
+AddFeature("ZENITH FLY", function(v) end)
